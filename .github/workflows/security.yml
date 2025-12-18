@@ -15,35 +15,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-
-      - name: Install uv
+      - name: Check for secrets in documentation
         run: |
-          curl -LsSf https://astral.sh/uv/install.sh | sh
-          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+          # Check for common secret patterns in docs
+          if grep -r -E '(api_key|secret|password|token).*=.*["\047][A-Za-z0-9+/]{20,}' docs/ README.md || true; then
+            echo "Warning: Potential secrets found in documentation"
+          fi
 
-      - name: Install dependencies
+      - name: Check for hardcoded URLs with credentials
         run: |
-          uv pip install --system -r requirements-dev.txt
+          if grep -r -E 'https?://[^:]+:[^@]+@' docs/ README.md || true; then
+            echo "Warning: URLs with credentials found in documentation"
+          fi
 
-      - name: Run Bandit
-        run: bandit -r app/ -f json -o bandit-report.json || true
-
-      - name: Upload Bandit report
-        uses: actions/upload-artifact@v4
-        with:
-          name: bandit-report
-          path: bandit-report.json
-
-      - name: Run Safety
-        run: safety check --json || true
-
-      - name: Check Bandit results
+      - name: Verify no .env files committed
         run: |
-          if grep -q '"issue_severity": "HIGH"' bandit-report.json; then
-            echo "HIGH severity security issues found"
+          if find . -name ".env*" -not -path "./.git/*" -not -name ".env.example" | grep -q .; then
+            echo "Error: .env files should not be committed"
             exit 1
           fi

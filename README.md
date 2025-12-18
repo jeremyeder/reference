@@ -1,6 +1,6 @@
 # Ambient Code Reference Repository
 
-A GitHub template demonstrating AI-assisted development best practices with a **buffet approach** - adopt features independently, no prescribed sequence.
+A **documentation-only** GitHub template demonstrating AI-assisted development patterns with a **buffet approach** - adopt concepts independently, no prescribed sequence.
 
 ## Quick Start
 
@@ -9,124 +9,149 @@ A GitHub template demonstrating AI-assisted development best practices with a **
 git clone https://github.com/jeremyeder/reference.git
 cd reference
 
-# Run one-command setup
-./scripts/setup.sh
+# Install documentation tooling
+uv pip install -r requirements-dev.txt
 
-# Start the application
-source .venv/bin/activate
-uvicorn app.main:app --reload
+# Explore the documentation
+cat docs/quickstart.md
 
-# Visit the application
-curl http://localhost:8000/health
+# Validate your own Mermaid diagrams
+./scripts/validate-mermaid.sh
 ```
 
 ## What's Included
 
-This repository demonstrates:
+This repository provides documentation and patterns for:
 
-- ✅ **Codebase Agent (CBA)** - AI agent for issue-to-PR automation, code reviews, and proactive maintenance
-- ✅ **FastAPI Microservice** - Production-ready layered architecture with health endpoints
-- ✅ **Comprehensive Testing** - Unit, integration, and E2E tests with 80%+ coverage
-- ✅ **CI/CD Automation** - GitHub Actions for linting, testing, security scanning
+- ✅ **Codebase Agent (CBA) Patterns** - AI agent configuration for issue-to-PR automation, code reviews, and proactive maintenance
+- ✅ **Architecture Patterns** - Layered architecture, component responsibilities, data flow
 - ✅ **Security Patterns** - Input validation, sanitization, secrets management
-- ✅ **Documentation** - Quickstart, architecture, tutorials, API reference
-- ✅ **Quality Automation** - Black, isort, ruff, Mermaid validation
+- ✅ **Testing Patterns** - Unit, integration, E2E test structures
+- ✅ **CI/CD Patterns** - GitHub Actions for documentation validation
+- ✅ **Documentation Templates** - Quickstart, architecture, tutorials, API reference
+- ✅ **Quality Automation** - Markdown linting, Mermaid diagram validation
 
 ## Buffet Approach
 
-Pick what you need. Each feature works independently:
+Pick what you need. Each pattern works independently:
 
-| Feature | Description | Adopt Independently |
-|---------|-------------|---------------------|
-| **Codebase Agent** | Issue-to-PR automation | ✅ Copy `.claude/` directory |
-| **FastAPI App** | Layered architecture example | ✅ Use `app/` as template |
-| **Testing** | Comprehensive test patterns | ✅ Copy test structure |
-| **CI/CD** | GitHub Actions workflows | ✅ Copy `.github/workflows/` |
-| **Documentation** | Docs structure | ✅ Copy `docs/` templates |
+| Pattern | Description | How to Adopt |
+|---------|-------------|--------------|
+| **Codebase Agent** | AI agent configuration patterns | Copy `.claude/` structure |
+| **Architecture** | Layered architecture patterns | Reference `docs/architecture.md` |
+| **Security** | Security best practices | Reference `.claude/context/security-standards.md` |
+| **Testing** | Test organization patterns | Reference `.claude/context/testing-patterns.md` |
+| **CI/CD** | Documentation validation | Copy `.github/workflows/docs-validation.yml` |
+| **ADR** | Decision record scaffolding | Copy `docs/adr/` structure |
 
 ## Repository Structure
 
 ```
 ambient-code-reference/
-├── .claude/               # Codebase Agent configuration
-│   ├── agents/           # CBA agent definition
-│   └── context/          # Modular memory system
-├── app/                  # FastAPI microservice
-│   ├── api/             # API endpoints
-│   ├── core/            # Config, security, logging
-│   ├── models/          # Pydantic models
-│   └── services/        # Business logic
-├── tests/               # Comprehensive test suite
-├── docs/                # Documentation
-├── .github/workflows/   # CI/CD automation
-└── scripts/             # Setup and validation scripts
+├── .claude/               # Codebase Agent patterns
+│   ├── agents/           # CBA agent definition patterns
+│   └── context/          # Modular memory system examples
+├── docs/                 # Documentation templates
+│   ├── quickstart.md    # 5-minute introduction
+│   ├── architecture.md  # Architecture patterns
+│   ├── tutorial.md      # Implementation guide
+│   ├── api-reference.md # API design patterns
+│   └── adr/            # ADR scaffolding
+├── .github/workflows/   # CI/CD for documentation
+└── scripts/            # Validation and setup scripts
 ```
 
-## Features
+## Key Patterns
 
 ### Codebase Agent (CBA)
 
-The Codebase Agent combines best practices from Ambient Code for AI-assisted development:
+AI agent configuration patterns for:
 
-- **Issue-to-PR Automation** - Convert well-defined issues into pull requests
-- **Code Reviews** - Provide actionable feedback on PRs
-- **Proactive Maintenance** - Dependency updates, linting fixes, documentation
+- **Issue-to-PR Automation** - Converting well-defined issues into pull requests
+- **Code Reviews** - Providing actionable feedback
+- **Proactive Maintenance** - Dependency updates, linting, documentation
+- **Memory System** - Modular context files for consistency
 
-See [`.claude/agents/codebase-agent.md`](.claude/agents/codebase-agent.md) for details.
+See [`.claude/agents/codebase-agent.md`](.claude/agents/codebase-agent.md) for patterns.
 
-### FastAPI Application
+### Architecture Patterns
 
-Production-ready microservice with:
+Reference implementations for:
 
 - **Layered Architecture** - API, Service, Model, Core layers
-- **Health Endpoints** - `/health`, `/readiness`, `/liveness`
-- **CRUD Operations** - Complete Items resource example
-- **Security** - Input validation, sanitization at API boundary
+- **Component Responsibilities** - Clear separation of concerns
+- **Security Boundaries** - Validation at API boundaries only
 - **Structured Logging** - JSON format for observability
 
-### Testing
+### Testing Patterns
 
-- **Unit Tests** - Service layer isolation
-- **Integration Tests** - Full API request/response cycles
-- **E2E Tests** - CBA workflow automation (outline)
-- **80%+ Coverage** - Enforced in CI
+- **Unit Testing** - Service layer isolation patterns
+- **Integration Testing** - Full request/response cycle patterns
+- **E2E Testing** - CBA workflow automation patterns
+- **Coverage Goals** - 80%+ enforcement strategies
 
-### CI/CD
+### CI/CD Patterns
 
-GitHub Actions workflows:
+GitHub Actions patterns for:
 
-- **Continuous Integration** - Lint, test, build on every push
-- **Security Scanning** - Bandit, Safety for vulnerabilities
-- **Documentation Validation** - Mermaid diagram syntax checking
-- **Dependabot** - Automated dependency updates
+- **Documentation Validation** - Markdown linting, Mermaid checking
+- **Link Validation** - Broken link detection
+- **Automated Updates** - Dependabot configuration
+- **Quality Gates** - Blocking merges on validation failures
 
 ## Documentation
 
-- **[Quickstart](docs/quickstart.md)** - Get running in 5 minutes
-- **[Architecture](docs/architecture.md)** - System design and patterns
-- **[Tutorial](docs/tutorial.md)** - Build your first feature
-- **[API Reference](docs/api-reference.md)** - Complete endpoint documentation
+- **[Quickstart](docs/quickstart.md)** - 5-minute introduction to AI-assisted development
+- **[Architecture](docs/architecture.md)** - Common architecture patterns
+- **[Tutorial](docs/tutorial.md)** - Step-by-step implementation guide
+- **[API Reference](docs/api-reference.md)** - API design patterns
+
+## Using This Template
+
+### For Documentation Projects
+
+```bash
+# 1. Use this template on GitHub
+# 2. Clone your new repository
+# 3. Install doc tooling
+uv pip install -r requirements-dev.txt
+
+# 4. Update documentation
+# Edit files in docs/
+
+# 5. Validate
+markdownlint docs/**/*.md --fix
+./scripts/validate-mermaid.sh
+
+# 6. Commit and push
+git add docs/
+git commit -m "docs: Update patterns"
+git push
+```
+
+### For Development Projects
+
+Reference the patterns and adapt to your needs:
+
+1. Copy `.claude/` for Codebase Agent setup
+2. Reference architecture patterns in `docs/architecture.md`
+3. Copy CI/CD workflows from `.github/workflows/`
+4. Adapt testing patterns from context files
+5. Customize for your tech stack
 
 ## Development
 
 ```bash
-# Install dependencies
-uv pip install -r requirements-dev.txt
-
-# Run linters
-black app/ tests/
-isort app/ tests/
-ruff check app/ tests/
-
-# Run tests
-pytest
-
-# Security scans
-bandit -r app/
-safety check
+# Lint markdown files
+markdownlint docs/**/*.md README.md CLAUDE.md --fix
 
 # Validate Mermaid diagrams
 ./scripts/validate-mermaid.sh
+
+# Lint any code examples
+black docs/examples/
+isort docs/examples/
+ruff check docs/examples/
 ```
 
 ## Contributing
@@ -140,3 +165,5 @@ MIT - See [LICENSE](LICENSE) for details.
 ---
 
 **Use this template**: Click "Use this template" button to create your own repository with these patterns.
+
+**Note**: This is a documentation-only reference repository. Patterns and examples are provided for reference and adaptation to your specific needs.
