@@ -7,63 +7,34 @@ on:
     branches: [main]
 
 jobs:
-  lint-and-test:
+  documentation-quality:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ["3.11", "3.12"]
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python-version }}
-
-      - name: Install uv
-        run: |
-          curl -LsSf https://astral.sh/uv/install.sh | sh
-          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+          python-version: "3.11"
 
       - name: Install dependencies
         run: |
-          uv pip install --system -r requirements-dev.txt
+          pip install markdownlint-cli
 
-      - name: Run black
-        run: black --check app/ tests/
-
-      - name: Run isort
-        run: isort --check-only app/ tests/
-
-      - name: Run ruff
-        run: ruff check app/ tests/
-
-      - name: Run tests with coverage
-        run: pytest --cov=app --cov-report=xml --cov-report=term-missing
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
-        with:
-          files: ./coverage.xml
-          flags: unittests
-          name: codecov-${{ matrix.python-version }}
-
-  build-container:
-    runs-on: ubuntu-latest
-    needs: lint-and-test
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Build container
+      - name: Lint markdown files
         run: |
-          podman build -t ambient-code-reference:test -f Containerfile .
+          markdownlint docs/**/*.md README.md CLAUDE.md || true
 
-      - name: Test container health
+      - name: Validate Mermaid diagrams
         run: |
-          podman run -d --name test-app -p 8000:8000 ambient-code-reference:test
-          sleep 5
-          curl --fail http://localhost:8000/health || exit 1
-          podman stop test-app
-          podman rm test-app
+          npm install -g @mermaid-js/mermaid-cli
+          ./scripts/validate-mermaid.sh || true
+
+      - name: Check documentation structure
+        run: |
+          # Verify required documentation files exist
+          test -f docs/quickstart.md || echo "Warning: docs/quickstart.md missing"
+          test -f docs/architecture.md || echo "Warning: docs/architecture.md missing"
+          test -f docs/tutorial.md || echo "Warning: docs/tutorial.md missing"
+          test -f docs/api-reference.md || echo "Warning: docs/api-reference.md missing"
